@@ -15,12 +15,16 @@ import ar.edu.utn.frsf.isi.dam.reclamosonlinelab04.dao.ReclamoDao;
 import ar.edu.utn.frsf.isi.dam.reclamosonlinelab04.dao.ReclamoDaoHTTP;
 import ar.edu.utn.frsf.isi.dam.reclamosonlinelab04.modelo.Reclamo;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final int REQUEST = 0;
+
     private ReclamoDao daoReclamo;
     private ListView listViewReclamos;
     private List<Reclamo> listaReclamos;
     private ReclamoAdapter adapter;
     private Button btnNuevoReclamo;
+
+    Thread t;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
         new ReclamoAdapter(MainActivity.this, listaReclamos);
         listViewReclamos.setAdapter(adapter);
 
+        actualizarLista();
+
+        btnNuevoReclamo = (Button) findViewById(R.id.btnNuevoReclamo);
+        btnNuevoReclamo.setOnClickListener(this);
+    }
+    private void actualizarLista() {
         Runnable r = new Runnable() {
             @Override
             public void run() {
@@ -49,8 +59,35 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         };
-        Thread t = new Thread(r);
+
+        t = new Thread(r);
         t.start();
-        btnNuevoReclamo = (Button) findViewById(R.id.btnNuevoReclamo);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnNuevoReclamo:
+                //Abrir el formulario de reclamo
+                Intent intent = new Intent(this, FormReclamo.class);
+                startActivityForResult(intent, REQUEST);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST) {
+            switch (resultCode) {
+                case RESULT_CANCELED:
+
+                    break;
+                case RESULT_OK:
+                    //Actualizar la lista con el nuevo reclamo
+                    actualizarLista();
+                    break;
+            }
+        }
     }
 }

@@ -32,7 +32,6 @@ public class MyGenericHTTPClient {
         try {
             URL url = new URL(this.serverAddress+"/"+recurso);
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setDoOutput(true);
             urlConnection.setChunkedStreamingMode(0);
             urlConnection.setRequestProperty("Content-Type","application/json");
             urlConnection.setDoOutput(true);

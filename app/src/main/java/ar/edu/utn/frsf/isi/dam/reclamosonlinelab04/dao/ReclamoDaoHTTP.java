@@ -1,5 +1,7 @@
 package ar.edu.utn.frsf.isi.dam.reclamosonlinelab04.dao;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +26,7 @@ public class ReclamoDaoHTTP implements ReclamoDao {
     private MyGenericHTTPClient cliente;
 
     public ReclamoDaoHTTP(){
-        server="http://10.0.2.2:3000";
+        server="http://192.168.1.2:3000";
         cliente = new MyGenericHTTPClient(server);
     }
 
@@ -57,6 +59,7 @@ public class ReclamoDaoHTTP implements ReclamoDao {
         if(tiposReclamos!=null && tiposReclamos.size()>0) return this.tiposReclamos;
         else{
             String estadosJSON = cliente.getAll("tipo");
+            tiposReclamos = new ArrayList<>();
             try {
                 JSONArray arr = new JSONArray(estadosJSON);
                 for(int i=0;i<arr.length();i++){
@@ -131,7 +134,19 @@ public class ReclamoDaoHTTP implements ReclamoDao {
 
     @Override
     public void crear(Reclamo r) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("titulo", r.getTitulo());
+            jsonObject.put("detalle", r.getDetalle());
+            jsonObject.put("fecha",r.getFecha());
+            jsonObject.put("tipoId",r.getTipo().getId());
+            jsonObject.put("estadoId",r.getEstado().getId());
 
+            Log.d("JSON", jsonObject.toString());
+            cliente.post("reclamo", jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

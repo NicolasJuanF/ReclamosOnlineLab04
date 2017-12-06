@@ -35,8 +35,6 @@ public class TipoReclamo {
 
     @Override
     public String toString() {
-        return "TipoReclamo{" +
-                "tipo='" + tipo + '\'' +
-                '}';
+        return  tipo;
     }
 }
