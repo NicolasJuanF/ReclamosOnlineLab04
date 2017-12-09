@@ -26,7 +26,7 @@ public class ReclamoDaoHTTP implements ReclamoDao {
     private MyGenericHTTPClient cliente;
 
     public ReclamoDaoHTTP(){
-        server="http://192.168.1.2:3000";
+        server="http://192.168.1.10:3000";
         cliente = new MyGenericHTTPClient(server);
     }
 
@@ -143,7 +143,9 @@ public class ReclamoDaoHTTP implements ReclamoDao {
             jsonObject.put("estadoId",r.getEstado().getId());
 
             Log.d("JSON", jsonObject.toString());
+
             cliente.post("reclamo", jsonObject.toString());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

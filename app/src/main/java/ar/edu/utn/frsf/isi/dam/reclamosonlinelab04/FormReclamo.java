@@ -1,5 +1,6 @@
 package ar.edu.utn.frsf.isi.dam.reclamosonlinelab04;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,6 +31,8 @@ public class FormReclamo extends AppCompatActivity implements View.OnClickListen
 
     List<TipoReclamo> listaTiposReclamo;
     ArrayAdapter<TipoReclamo> spinnerAdapter;
+
+    Reclamo nuevoReclamo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,31 +81,29 @@ public class FormReclamo extends AppCompatActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.frmReclamoGuardar:
-                //Se guarda el reclamo
-                Estado estado = new Estado(30,"Hola");
+                Estado estado = new Estado(1,"Hola");
                 TipoReclamo tipoReclamo = spinnerAdapter.getItem(frmReclamoCmbTipo.getSelectedItemPosition());
 
-
-                final Reclamo reclamo = new Reclamo();
-                reclamo.setTitulo(frmReclamoTextReclamo.getText().toString());
-                reclamo.setDetalle(frmReclamoTextDetReclamo.getText().toString());
-                reclamo.setFecha(new Date(20170303));
-                reclamo.setEstado(estado);
-                reclamo.setTipo(tipoReclamo);
+                nuevoReclamo = new Reclamo();
+                nuevoReclamo.setTitulo(frmReclamoTextReclamo.getText().toString());
+                nuevoReclamo.setDetalle(frmReclamoTextDetReclamo.getText().toString());
+                nuevoReclamo.setFecha(new Date());
+                nuevoReclamo.setEstado(estado);
+                nuevoReclamo.setTipo(tipoReclamo);
 
                 Runnable r = new Runnable() {
-                    Reclamo r = reclamo;
                     @Override
                     public void run() {
-                        daoReclamo.crear(reclamo);
+                        daoReclamo.crear(nuevoReclamo);
+
+                        setResult(RESULT_OK);
+                        finish();
                     }
                 };
 
                 Thread t = new Thread(r);
                 t.start();
 
-                setResult(RESULT_OK);
-                finish();
                 break;
         }
     }
