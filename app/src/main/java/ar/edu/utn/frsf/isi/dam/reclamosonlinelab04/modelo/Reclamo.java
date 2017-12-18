@@ -22,6 +22,11 @@ public class Reclamo {
     public Reclamo() {
     }
 
+    public Reclamo(Integer id, String detalle) {
+        this.id = id;
+        this.detalle = detalle;
+    }
+
     public Reclamo(Integer id, String titulo, String detalle, Date fecha, TipoReclamo tipo, Estado estado) {
         this.id = id;
         this.titulo = titulo;

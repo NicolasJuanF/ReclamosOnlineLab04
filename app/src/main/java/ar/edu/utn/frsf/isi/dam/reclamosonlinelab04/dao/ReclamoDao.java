@@ -16,7 +16,7 @@ public interface ReclamoDao {
     public List<Reclamo> reclamos();
     public Estado getEstadoById(Integer id);
     public TipoReclamo getTipoReclamoById(Integer id);
-
+    public Reclamo getReclamoById(Integer id);
     public void crear(Reclamo r);
     public void actualizar(Reclamo r);
     public void borrar(Reclamo r);

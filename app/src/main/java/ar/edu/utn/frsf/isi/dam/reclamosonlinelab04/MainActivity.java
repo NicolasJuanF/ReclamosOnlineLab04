@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,8 +24,11 @@ import ar.edu.utn.frsf.isi.dam.reclamosonlinelab04.modelo.Estado;
 import ar.edu.utn.frsf.isi.dam.reclamosonlinelab04.modelo.Reclamo;
 import ar.edu.utn.frsf.isi.dam.reclamosonlinelab04.modelo.TipoReclamo;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final int REQUEST = 0;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemLongClickListener{
+    private static final int CREAR = 0;
+    private static final int EDITAR = 1;
+    private static final String crear = "CREAR";
+    private static final String editar = "EDITAR";
 
     private ReclamoDao daoReclamo;
     private ListView listViewReclamos;
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listViewReclamos = (ListView) findViewById(R.id.mainListaReclamos);
+        listViewReclamos.setOnItemLongClickListener(this);
         listaReclamos = new ArrayList<>();
         adapter = new ReclamoAdapter(this, listaReclamos);
         //new ReclamoAdapter(MainActivity.this, listaReclamos);
@@ -52,6 +58,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnNuevoReclamo.setOnClickListener(this);
     }
 
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        //Se obtiene el item seleccionado para obtener el id que se pasa a la actividad de edición
+        Reclamo reclamoSeleccionado = (Reclamo) listViewReclamos.getItemAtPosition(i);
+
+        Intent intent = new Intent(this, FormReclamo.class);
+        intent.setAction(editar);
+        intent.putExtra("id", reclamoSeleccionado.getId().toString());
+        startActivityForResult(intent, EDITAR);
+
+        //Toast.makeText(this,reclamoSeleccionado.getId().toString(), Toast.LENGTH_LONG).show();
+
+        return false;
+    }
+
+    /* No se usa. Después borrar */
     class AddReclamoTask extends AsyncTask<Void, Reclamo, Void> {
         @Override
         protected Void doInBackground(Void... unused) {
@@ -97,7 +119,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnNuevoReclamo:
                 //Abrir el formulario de reclamo
                 Intent intent = new Intent(this, FormReclamo.class);
-                startActivityForResult(intent, REQUEST);
+                intent.setAction(crear);
+                startActivityForResult(intent, CREAR);
                 break;
         }
     }
@@ -106,13 +129,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST) {
+        if (requestCode == CREAR) {
             switch (resultCode) {
                 case RESULT_CANCELED:
 
                     break;
                 case RESULT_OK:
                     //Actualizar la lista con el nuevo reclamo
+                    Log.d("Ok","Salió");
+                    actualizarLista();
+
+                    break;
+            }
+        }
+
+        else if (requestCode == EDITAR) {
+            switch (resultCode) {
+                case RESULT_CANCELED:
+
+                    break;
+                case RESULT_OK:
+                    //Actualizar la lista con el reclamo borrado o editado
                     Log.d("Ok","Salió");
                     actualizarLista();
 
