@@ -29,7 +29,7 @@ import ar.edu.utn.frsf.isi.dam.reclamosonlinelab04.modelo.TipoReclamo;
 public class FormReclamo extends AppCompatActivity implements View.OnClickListener{
     private ReclamoDao daoReclamo;
     Spinner frmReclamoCmbTipo;
-    Button frmReclamoCancelar, frmReclamoGuardar;
+    Button frmReclamoCancelar, frmReclamoGuardar, frmReclamoEliminar;
     EditText frmReclamoTextReclamo, frmReclamoTextDetReclamo;
 
     List<TipoReclamo> listaTiposReclamo;
@@ -122,11 +122,28 @@ public class FormReclamo extends AppCompatActivity implements View.OnClickListen
         frmReclamoCancelar.setOnClickListener(this);
         frmReclamoGuardar = (Button) findViewById(R.id.frmReclamoGuardar);
         frmReclamoGuardar.setOnClickListener(this);
+
+        frmReclamoEliminar = (Button) findViewById(R.id.frmReclamoEliminar);
+        frmReclamoEliminar.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.frmReclamoEliminar:
+                Runnable b = new Runnable() {
+                    @Override
+                    public void run() {
+                        daoReclamo.borrar(reclamoObtenido);
+
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                };
+
+                Thread tb = new Thread(b);
+                tb.start();
+                break;
             case R.id.frmReclamoCancelar:
                 setResult(RESULT_CANCELED);
                 finish();

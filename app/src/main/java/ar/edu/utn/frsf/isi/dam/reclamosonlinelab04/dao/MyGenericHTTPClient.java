@@ -24,6 +24,29 @@ public class MyGenericHTTPClient {
         this.serverAddress=address;
     }
 
+    public Boolean delete(String recurso, Integer id ) {
+        HttpURLConnection urlConnection = null;
+
+        try {
+            URL url = new URL(this.serverAddress+"/"+recurso+"/"+id);
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestProperty("Content-Type", "application/json");
+            urlConnection.setDoOutput(true);
+            urlConnection.setRequestMethod("DELETE");
+            urlConnection.connect();
+            urlConnection.getInputStream();
+
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(urlConnection !=null)urlConnection.disconnect();
+        }
+
+        return true;
+    }
+
     public String post(String recurso,String jsonDataObject) {
         StringBuilder sb = new StringBuilder();
 
