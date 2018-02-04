@@ -149,7 +149,7 @@ public class FormReclamo extends AppCompatActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.frmReclamoGuardar:
-                Estado estado = new Estado(1,"Hola");
+                Estado estado = new Estado(1,"Nuevo");
                 TipoReclamo tipoReclamo = spinnerAdapter.getItem(frmReclamoCmbTipo.getSelectedItemPosition());
 
                 nuevoReclamo = new Reclamo();
@@ -159,18 +159,39 @@ public class FormReclamo extends AppCompatActivity implements View.OnClickListen
                 nuevoReclamo.setEstado(estado);
                 nuevoReclamo.setTipo(tipoReclamo);
 
-                Runnable r = new Runnable() {
-                    @Override
-                    public void run() {
-                        daoReclamo.crear(nuevoReclamo);
+                //Obtener el intent para saber en qué modo entramos = CREAR:0 | EDITAR:1
+                if (getIntent().getAction() == "CREAR") {
+                    Runnable r = new Runnable() {
+                        @Override
+                        public void run() {
+                            daoReclamo.crear(nuevoReclamo);
 
-                        setResult(RESULT_OK);
-                        finish();
-                    }
-                };
+                            setResult(RESULT_OK);
+                            finish();
+                        }
+                    };
 
-                Thread t = new Thread(r);
-                t.start();
+                    Thread t = new Thread(r);
+                    t.start();
+                }else {
+                    nuevoReclamo.setId(reclamoObtenido.getId());
+
+                    Runnable r = new Runnable() {
+                        @Override
+                        public void run() {
+                            daoReclamo.actualizar(nuevoReclamo);
+
+                            setResult(RESULT_OK);
+                            finish();
+                        }
+                    };
+
+                    Thread t = new Thread(r);
+                    t.start();
+                }
+
+
+
 
                 break;
         }
