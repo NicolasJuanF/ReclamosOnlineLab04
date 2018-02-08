@@ -49,7 +49,7 @@ public class MyGenericHTTPClient {
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             InputStreamReader isw = new InputStreamReader(in);
             int data = isw.read();
-            while (data != -1) {
+                while (data != -1) {
                 char current = (char) data;
                 sb.append(current);
                 data = isw.read();

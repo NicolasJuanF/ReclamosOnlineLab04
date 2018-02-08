@@ -2,6 +2,8 @@ package ar.edu.utn.frsf.isi.dam.reclamosonlinelab04.dao;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +29,10 @@ public class ReclamoDaoHTTP implements ReclamoDao {
     private MyGenericHTTPClient cliente;
 
     public ReclamoDaoHTTP() {
-        server = "http://192.168.1.5:3000";
+        //ip mauro
+        //server = "http://192.168.0.3:3000"; ip de mauro
+        //ip nico
+        server = "http://192.168.0.3:3000";
         cliente = new MyGenericHTTPClient(server);
     }
 
@@ -169,7 +174,17 @@ public class ReclamoDaoHTTP implements ReclamoDao {
             jsonObject.put("tipoId",r.getTipo().getId());
             jsonObject.put("estadoId",r.getEstado().getId());
 
+
+            LatLng lugar = r.getLugar();
+            if(lugar!=null) {
+                Double latitud = lugar.latitude;
+                Double longitud = lugar.longitude;
+                jsonObject.put("latitud", latitud);
+                jsonObject.put("longitud", longitud);
+            }
+
             Log.d("JSON", jsonObject.toString());
+
 
             cliente.post("reclamo", jsonObject.toString());
 
@@ -189,6 +204,15 @@ public class ReclamoDaoHTTP implements ReclamoDao {
             jsonObject.put("estadoId",r.getEstado().getId());
 
             Log.d("JSON", jsonObject.toString());
+
+            LatLng lugar = r.getLugar();
+            if(lugar!=null) {
+                Double latitud = lugar.latitude;
+                Double longitud = lugar.longitude;
+                jsonObject.put("latitud", latitud);
+                jsonObject.put("longitud", longitud);
+            }
+
 
             cliente.put("reclamo", jsonObject.toString(), r.getId());
 
