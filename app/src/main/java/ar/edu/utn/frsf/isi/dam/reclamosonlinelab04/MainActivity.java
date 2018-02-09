@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private List<Reclamo> listaReclamos;
     private ReclamoAdapter adapter;
     private Button btnNuevoReclamo;
+    private Button btnVerTodo;
 
     Thread t;
 
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnNuevoReclamo = (Button) findViewById(R.id.btnNuevoReclamo);
         btnNuevoReclamo.setOnClickListener(this);
+        btnVerTodo = (Button) findViewById(R.id.btnVerTodo);
+        btnVerTodo.setOnClickListener(this);
     }
 
     @Override
@@ -122,6 +125,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent.setAction(crear);
                 startActivityForResult(intent, CREAR);
                 break;
+            case R.id.btnVerTodo:
+                Intent intent_listar = new Intent(MainActivity.this, MapsActivity.class);
+                intent_listar.putExtra("bandera", "listar");
+                startActivity(intent_listar);
+
+                break;
+
         }
     }
 
