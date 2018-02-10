@@ -2,4 +2,5 @@
     <string name="app_name">ReclamosOnlineLab04</string>
     <string name="title_activity_maps">Mapa</string>
     <string name="btn_elegir_lugar">Seleccionar lugar</string>
+    <string name="ver_todo">VER TODO EN MAPA!</string>
 </resources>

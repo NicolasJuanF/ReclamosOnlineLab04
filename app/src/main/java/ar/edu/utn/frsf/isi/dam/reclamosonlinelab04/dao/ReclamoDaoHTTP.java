@@ -92,6 +92,14 @@ public class ReclamoDaoHTTP implements ReclamoDao {
                 recTmp.setTitulo(unaFila.getString("titulo"));
                 recTmp.setTipo(this.getTipoReclamoById(unaFila.getInt("tipoId")));
                 recTmp.setEstado(this.getEstadoById(unaFila.getInt("estadoId")));
+                try {
+                    double lat = unaFila.getDouble("latitud");
+                    double lng = unaFila.getDouble("longitud");
+                    LatLng lugar = new LatLng(lat, lng);
+                    recTmp.setLugar(lugar);
+                } catch(JSONException e) {
+
+                }
                 listaReclamos.add(recTmp);
             }
         } catch (JSONException e) {
@@ -156,6 +164,17 @@ public class ReclamoDaoHTTP implements ReclamoDao {
                 objResult.setDetalle(unaFila.getString("detalle"));
                 objResult.setTipo(this.getTipoReclamoById(unaFila.getInt("tipoId")));
                 objResult.setEstado(this.getEstadoById(unaFila.getInt("estadoId")));
+                try {
+                    double lat = unaFila.getDouble("latitud");
+
+                    double lng = unaFila.getDouble("longitud");
+                    Log.d("lat" , String.valueOf(lat));
+                    Log.d("lat" , String.valueOf(lng));
+                    LatLng lugar = new LatLng(lat, lng);
+                    objResult.setLugar(lugar);
+                } catch(JSONException e) {
+
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

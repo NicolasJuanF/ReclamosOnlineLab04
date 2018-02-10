@@ -140,7 +140,8 @@ public class FormReclamo extends AppCompatActivity implements View.OnClickListen
                     String id = getIntent().getStringExtra("id");//variable local
                     reclamoObtenido = daoReclamo.getReclamoById(Integer.valueOf(id));
                     LtLn = reclamoObtenido.getLugar();
-                    Log.d("Detalle",reclamoObtenido.getDetalle());
+
+                    Log.d("Detalle", String.valueOf(LtLn));
 
                     runOnUiThread(new Runnable() {
                         public void run() {
@@ -149,6 +150,13 @@ public class FormReclamo extends AppCompatActivity implements View.OnClickListen
 
                             frmReclamoTextReclamo.setText(reclamoObtenido.getTitulo());
                             frmReclamoTextDetReclamo.setText(reclamoObtenido.getDetalle());
+                            if (LtLn != null ){
+                                String latitud = String.valueOf(LtLn.latitude);
+                                String longitud = String.valueOf(LtLn.longitude);
+
+                                frmReclamoTextLugar.setText("Lat: " + latitud + "/ Long:"  + longitud);
+                            }
+
 
                             Bitmap imagen = loadImageFromStorage();
                             if (imagen != null) {
@@ -305,8 +313,9 @@ public class FormReclamo extends AppCompatActivity implements View.OnClickListen
             case R.id.elegirLugar:
 
                 Intent intent = new Intent(FormReclamo.this, MapsActivity.class);
+                intent.putExtra("bandera" , "lugar");
                 if(LtLn  != null) {//si ya tenia un punto en el mapa
-                    intent.putExtra("lugar" , LtLn);
+                    intent.putExtra("ubicacion" , LtLn);
                 }
                 startActivityForResult(intent, REQUEST_MAPA);
 
@@ -441,8 +450,11 @@ public class FormReclamo extends AppCompatActivity implements View.OnClickListen
             frmReclamoImgFoto.setImageBitmap(imageBitmap);
         }
         if (requestCode == REQUEST_MAPA && resultCode == RESULT_OK) {
-            LtLn = data.getParcelableExtra("lugar");
-            frmReclamoTextLugar.setText(LtLn.toString());
+            LtLn = data.getParcelableExtra("ubicacion");
+            String latitud = String.valueOf(LtLn.latitude);
+            String longitud = String.valueOf(LtLn.longitude);
+
+            frmReclamoTextLugar.setText("Lat: " + latitud + "/ Long:"  + longitud);
         }
 
 
