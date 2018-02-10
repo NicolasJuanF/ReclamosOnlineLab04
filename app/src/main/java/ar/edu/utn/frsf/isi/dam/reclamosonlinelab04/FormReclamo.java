@@ -265,8 +265,12 @@ public class FormReclamo extends AppCompatActivity implements View.OnClickListen
                         @Override
                         public void run() {
                             daoReclamo.actualizar(nuevoReclamo);
-                            Bitmap imagen = ((BitmapDrawable) frmReclamoImgFoto.getDrawable()).getBitmap();
-                            if (imagen != null) saveToInternalStorage(imagen);
+                            BitmapDrawable bmd = (BitmapDrawable) frmReclamoImgFoto.getDrawable();
+
+                            if(bmd != null) {
+                                Bitmap imagen = bmd.getBitmap();
+                                if (imagen != null) saveToInternalStorage(imagen);
+                            }
 
                             setResult(RESULT_OK);
                             finish();
