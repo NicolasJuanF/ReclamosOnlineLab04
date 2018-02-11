@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "513151175519",
+    "firebase_url": "https://lab04-7c20c.firebaseio.com",
+    "project_id": "lab04-7c20c",
+    "storage_bucket": "lab04-7c20c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513151175519:android:1783dbcc7c6a9e30",
+        "android_client_info": {
+          "package_name": "ar.edu.utn.frsf.isi.dam.reclamosonlinelab04"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513151175519-rmptuc4aqu0i6j0cp2mi4lieesa6tamn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh7_WlT4LpgVIa8PvD4teg57nbP4BphRc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
